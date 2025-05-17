@@ -29,3 +29,49 @@
 
 ## 📁 專案結構簡介
 
+一、開機後啟動「開發環境」
+
+<aside>
+
+```bash
+# 1. 啟動前端（熱更新在 http://localhost:5173）
+cd frontend
+npm run dev
+# 2. 另開一個終端機視窗啟動後端（FastAPI，http://localhost:8000）
+cd ..
+docker compose -f docker-compose.dev.yml up --build
+```
+
+</aside>
+
+二、開發完成 → 切換為「部屬環境」
+
+```bash
+# 1. 停止目前正在跑的開發前後端（按 Ctrl + C）
+#    包括 frontend 的 npm 和 docker 的後端
+
+# 2. 重新打包整個前後端並啟動部屬版（將 React build 並嵌入 FastAPI）
+docker compose -f docker-compose.prod.yml build --no-cache
+docker compose -f docker-compose.prod.yml up
+```
+
+> ✅ 成功後可透過 http://localhost:8000 看到嵌入式的前端頁面。
+> 
+
+---
+
+三、日後開機直接進入「部屬環境」
+
+```bash
+# 啟動部署環境（FastAPI + 已打包的 React）
+docker compose -f docker-compose.prod.yml up
+```
+
+完全清掉容器、網路、volume →
+
+<aside>
+
+docker compose -f docker-compose.prod.yml down --volumes --remove-orphans
+
+</aside>
+

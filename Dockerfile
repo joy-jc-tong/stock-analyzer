@@ -1,8 +1,12 @@
 # 前端建置階段
 FROM node:18-alpine AS frontend-build
 WORKDIR /frontend
+
+# 安裝階段
 COPY frontend/package*.json ./
 RUN npm install
+
+# 重新 build
 COPY frontend/ ./
 RUN npm run build
 
@@ -16,5 +20,5 @@ COPY backend/app/ ./app
 # 整合階段（直接用 backend-build，節省重複安裝）
 FROM backend-build AS final
 WORKDIR /app
-COPY --from=frontend-build /frontend/dist /app/app/static
-CMD ["python", "-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+COPY --from=frontend-build /frontend/dist /app/app/static/
+CMD ["python", "-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
