@@ -13,13 +13,13 @@ function App() {
     setImageUrl(null);
 
     try {
-      const response = await fetch("http://localhost:8000/api/v1/stocks/plot", {
+      const response = await fetch("/api/v1/stocks/plot", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({ ticker, period, interval })
-      });
+      });      
 
       if (!response.ok) {
         throw new Error("圖表取得失敗");

@@ -1,0 +1,9 @@
+# 不要把 node_modules 複製進 Docker（會造成壓縮與權限錯誤）
+frontend/node_modules
+**/__pycache__/
+**/*.pyc
+.dockerignore
+.git
+.gitignore
+.vscode
+.env

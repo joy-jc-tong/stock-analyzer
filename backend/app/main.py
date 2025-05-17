@@ -1,16 +1,17 @@
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+import os
 from app.api.v1 import stocks
 
 app = FastAPI()
 
-# 加入 CORS middleware
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # 若只允許前端來源，填 ["http://localhost:5173"] 之類
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+static_dir = os.path.join(os.path.dirname(__file__), "static")
+app.mount("/static", StaticFiles(directory=static_dir), name="static")
+
+@app.get("/")
+async def root():
+    index_path = os.path.join(static_dir, "index.html")
+    return FileResponse(index_path)
 
 app.include_router(stocks.router, prefix="/api/v1/stocks")
