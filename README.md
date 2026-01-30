@@ -12,7 +12,7 @@ Stock Analyzer 是一個以 Python 為核心的資料處理與分析流程示範
 
 結構化時間序列資料（以股票資料為例）
 
-一個可重現的資料流程：
+資料流程：
 Raw data → ETL → Analysis-ready datasets → API / BI consumption
 - 常見分析情境：
   - 條件式篩選與排序
